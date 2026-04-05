@@ -19,4 +19,4 @@ jobs:
             --env-var "baseURL=https://trello.com" \
             --env-var "key=${{ secrets.TRELLO_KEY }}" \
             --env-var "token=${{ secrets.TRELLO_TOKEN }}" \
-            --env-var "name=Postman Board"
+            --env-var "boardIdName=Postman Board"
