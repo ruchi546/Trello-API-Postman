@@ -1,0 +1,853 @@
+{
+  "info": {
+    "_postman_id": "af41bec6-9299-441c-bf86-b4f638a04b82",
+    "name": "Trello API Tests",
+    "description": "First creates a new board. In the Scripts post gets the id.\n\nThen get the board with the id variable setted in the previous step.\n\n`pm.execution.setNextRequest(\"Request Name\")`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53749011",
+    "_collection_link": "https://go.postman.co/collection/53749011-af41bec6-9299-441c-bf86-b4f638a04b82?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Board",
+      "item": [
+        {
+          "name": "Create a Board",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "const boardId = response.id;\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"boardId\", boardId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/boards/?key={{key}}&token={{token}}&name={{boardIdName}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "boards",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "name",
+                  "value": "{{boardIdName}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get the Board",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const boardIdName = pm.collectionVariables.get(\"boardIdName\");\r",
+                  "\r",
+                  "pm.test(\"Check name\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"Postman Board\");\r",
+                  "    pm.expect(pm.response.text()).to.include(boardIdName);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/boards/{{boardId}}/?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{boardId}}",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update the Board (empty body)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.execution.setNextRequest(\"Create a new List\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/boards/{{boardId}}/?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{boardId}}",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete the Board",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Deleted board returns _value field\", () => {\r",
+                  "  pm.expect(pm.response.json()).to.have.property(\"_value\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"boardId\", \"\");\r",
+                  "pm.collectionVariables.set(\"listId\", \"\");\r",
+                  "pm.collectionVariables.set(\"cardId\", \"\");\r",
+                  "pm.collectionVariables.set(\"checklistId\", \"\");\r",
+                  "\r",
+                  "pm.execution.setNextRequest(null);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/boards/{{boardId}}/?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{boardId}}",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Lists",
+      "item": [
+        {
+          "name": "Create a new List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "const listId = response.id;\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"listId\", listId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/lists?name=New List&idBoard={{boardId}}&key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "lists"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "New List"
+                },
+                {
+                  "key": "idBoard",
+                  "value": "{{boardId}}"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const listIdToCheck = pm.collectionVariables.get(\"listId\");\r",
+                  "\r",
+                  "pm.test(\"Check id\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(listIdToCheck)\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/lists/{{listId}}?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{listId}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "item": [
+        {
+          "name": "Create a new Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "const cardId = response.id;\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"cardId\", cardId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/cards?idList={{listId}}&key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "cards"
+              ],
+              "query": [
+                {
+                  "key": "idList",
+                  "value": "{{listId}}"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add a Label to a Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "const labelId = response.id;\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"labelId\", labelId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/cards/{{cardId}}/labels?name=New Label&color=yellow&key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{cardId}}",
+                "labels"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "New Label"
+                },
+                {
+                  "key": "color",
+                  "value": "yellow"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove a Label from a Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/cards/{{cardId}}/idLabels/{{labelId}}?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{cardId}}",
+                "idLabels",
+                "{{labelId}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add a new comment to a Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.execution.setNextRequest(\"Create a Checklist\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/cards/{{cardId}}/actions/comments?text=Test Comment&key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{cardId}}",
+                "actions",
+                "comments"
+              ],
+              "query": [
+                {
+                  "key": "text",
+                  "value": "Test Comment"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.execution.setNextRequest(\"Delete the Board\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/cards/{{cardId}}?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{cardId}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Checklists",
+      "item": [
+        {
+          "name": "Create a Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const response = pm.response.json();\r",
+                  "const checklistId = response.id;\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"checklistId\", checklistId);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/checklists?idCard={{cardId}}&key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "checklists"
+              ],
+              "query": [
+                {
+                  "key": "idCard",
+                  "value": "{{cardId}}"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const checkListIdToCheck = pm.collectionVariables.get(\"checklistId\");\r",
+                  "\r",
+                  "pm.test(\"Check id\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(checkListIdToCheck)\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/checklists/{{checklistId}}?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklistId}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Checkitem on Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.execution.setNextRequest(\"Delete a Checklist\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/checklists/{{checklistId}}/checkItems?name=Test Checkitem&key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklistId}}",
+                "checkItems"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Test Checkitem"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status is 200\", () => {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.execution.setNextRequest(\"Delete a Card\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/1/checklists/{{checklistId}}?key={{key}}&token={{token}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklistId}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": ""
+    },
+    {
+      "key": "boardIdName",
+      "value": ""
+    },
+    {
+      "key": "boardId",
+      "value": ""
+    },
+    {
+      "key": "labelId",
+      "value": ""
+    },
+    {
+      "key": "checklistId",
+      "value": ""
+    },
+    {
+      "key": "listId",
+      "value": ""
+    },
+    {
+      "key": "cardId",
+      "value": ""
+    }
+  ]
+}
