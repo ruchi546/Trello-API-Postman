@@ -16,6 +16,6 @@ jobs:
         run: |
           postman collection run "53749011-af41bec6-9299-441c-bf86-b4f638a04b82" \
             -e "53749011-b35ebf13-d46d-4a59-aa7d-81298ee3e793" \
-            --env-var "base_url=https://trello.com" \
+            --env-var "baseURL=https://trello.com" \
             --env-var "key=${{ secrets.TRELLO_KEY }}" \
             --env-var "token=${{ secrets.TRELLO_TOKEN }}" 
