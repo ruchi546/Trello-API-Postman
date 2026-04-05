@@ -18,4 +18,5 @@ jobs:
             -e "53749011-b35ebf13-d46d-4a59-aa7d-81298ee3e793" \
             --env-var "baseURL=https://trello.com" \
             --env-var "key=${{ secrets.TRELLO_KEY }}" \
-            --env-var "token=${{ secrets.TRELLO_TOKEN }}" 
+            --env-var "token=${{ secrets.TRELLO_TOKEN }}" \
+            --env-var "name=Postman Board"
