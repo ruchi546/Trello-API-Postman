@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "af41bec6-9299-441c-bf86-b4f638a04b82",
     "name": "Trello API Tests",
-    "description": "First creates a new board. In the Scripts post gets the id.\n\nThen get the board with the id variable setted in the previous step.\n\n`pm.execution.setNextRequest(\"Request Name\")`",
+    "description": "",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "53749011",
     "_collection_link": "https://go.postman.co/collection/53749011-af41bec6-9299-441c-bf86-b4f638a04b82?source=collection_link"
